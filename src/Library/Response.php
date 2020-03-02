@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     IdnPlay\Utils\Library\Response
+ * @package     Icigon\Laravel\Utils\Library\Response
  * @author      singkek
  * @copyright   Copyright(c) 2019
  * @version     1

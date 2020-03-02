@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     IdnPlay\Utils\Library\Redis
+ * @package     Icigon\Laravel\Utils\Library\Redis
  * @author      singkek
  * @copyright   Copyright(c) 2019
  * @version     1
@@ -18,24 +18,19 @@ class Redis
      *
      * @param $key
      * @param $value
+     * @param int $expire_in [second]
      * @return mixed
      */
-    public function set($key,$value)
+    public function set($key,$value,$expire_in = null)
     {
-        return LibRedis::set($key,$value);
-    }
-
-    /**
-     * set redis data temporary and replace if exist old data
-     *
-     * @param $key
-     * @param $value
-     * @param $expire_in [second]
-     * @return mixed
-     */
-    public function set_tmp($key,$value,$expire_in)
-    {
-        return LibRedis::set($key,$value,'EX',$expire_in);
+        if (is_null($expire_in))
+        {
+            return LibRedis::set($key,$value);
+        }
+        else
+        {
+            return LibRedis::set($key,$value,'EX',$expire_in);
+        }
     }
 
     /**
@@ -43,11 +38,19 @@ class Redis
      *
      * @param $key
      * @param $value
+     * @param int $expire_in [second]
      * @return mixed
      */
-    public function set_if_not_exist($key,$value)
+    public function set_if_not_exist($key,$value,$expire_in = null)
     {
-        return LibRedis::setx($key,$value);
+        if (is_null($expire_in))
+        {
+            return LibRedis::setnx($key,$value);
+        }
+        else
+        {
+            return LibRedis::set($key,$value,'EX',$expire_in, 'NX');
+        }
     }
 
     /**
